@@ -144,6 +144,9 @@ nmap <silent> ,gW :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 " Search the current directory for the WORD under the cursor and display matches
 nmap <silent> ,gc :grep -R --include=*.{cpp,h} <C-r><C-w> *<CR>:ccl<CR>:cwin<CR>
 
+" Toggle on/off highlight search
+nnoremap <silent> ,/ :set invhlsearch<CR>:set hlsearch?<CR>
+
 " System default for mappings is now the "," character
 let mapleader = ","
 
@@ -226,7 +229,7 @@ set completeopt=menuone,menu,longest,preview
  :exec selectExpr
 :endfunction 
 
-map ,] :call CustomTagSelect()
+map ,] :call CustomTagSelect()<CR>
 
 "-----------------------------------------------------------------------------
 " NERD Tree Plugin Settings
