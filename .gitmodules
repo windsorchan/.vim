@@ -34,3 +34,6 @@
 [submodule "bundle/vim-mql"]
 	path = bundle/vim-mql
 	url = https://github.com/jonatas/vim-mql.git
+[submodule "bundle/powerline"]
+	path = bundle/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
