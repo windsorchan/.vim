@@ -129,8 +129,9 @@ nmap <silent> ,ev :e $MYVIMRC<CR>
 nmap <silent> ,sv :so $MYVIMRC<CR>
 
 " Make mappings
-nmap <silent> ,mi :make DEBUG=1 install<CR>
-nmap <silent> ,mr :make DEBUG=1<CR>
+nmap <silent> ,mi :make install<CR>
+nmap <silent> ,mr :make <CR>
+nmap <silent> ,mc :make check<CR>
 
 " Search the current file for what's currently in the search register and display matches
 nmap <silent> ,gs :vimgrep /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
@@ -148,7 +149,7 @@ nmap <silent> ,gc :grep -R --include=*.{cpp,h} <C-r><C-w> *<CR>:ccl<CR>:cwin<CR>
 let mapleader = ","
 
 " set the colorscheme
-" set t_Co=256
+set t_Co=256
 colorscheme wombat256
 
 " Workaround to stop make/quickfix from creating a new file
