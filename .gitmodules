@@ -37,3 +37,6 @@
 [submodule "bundle/R-plugin"]
 	path = bundle/R-plugin
 	url = https://github.com/jcfaria/Vim-R-plugin.git
+[submodule "bundle/screen"]
+	path = bundle/screen
+	url = https://github.com/ervandew/screen.git
