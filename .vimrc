@@ -47,7 +47,7 @@ set vb
 set backspace=2
 
 " Set the status line the way I like it
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+" set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 
 " tell Vim to always put a status line in, even if there is only one
 " window
@@ -111,6 +111,9 @@ inoremap jj <ESC>
 " Toggle paste mode
 nmap <silent> ,p :set invpaste<CR>:set paste?<CR>
 
+" Toggle word wrap
+nmap <silent> ,tw :set nowrap! <CR>
+
 " cd to the directory containing the file in the buffer
 nmap <silent> ,cd :lcd %:h<CR>
 nmap <silent> ,md :!mkdir -p %:p:h<CR>
@@ -157,7 +160,6 @@ colorscheme wombat256
 " Workaround to stop make/quickfix from creating a new file
 set errorformat^=%-GIn\ file\ included\ %.%# 
 
-
 "-----------------------------------------------------------------------------
 " pathogen Settings
 "-----------------------------------------------------------------------------
@@ -171,13 +173,13 @@ nmap <silent> ,ec :e $HOME/.vim/bundle/snipmate/snippets/c.snippets<CR>
 nmap <silent> ,ep :e $HOME/.vim/bundle/snipmate/snippets/cpp.snippets<CR>
 
 "-----------------------------------------------------------------------------
-" clang_complete Settings
+" Clang Complete Settings
 "-----------------------------------------------------------------------------
-let g:clang_auto_select = 1
-let g:clang_periodic_quickfix = 0
+let g:clang_use_library = 1
+let g:clang_library_path = '/home/windsor/source/build/Release+Asserts/lib'
+
 " let g:clang_snippets = 1
 " let g:clang_conceal_snippets = 0
-let g:clang_use_library = 1
 
 "-----------------------------------------------------------------------------
 " ctrlp Settings
@@ -207,17 +209,17 @@ set tags+=~/.vim/tags/cpp
 set tags+=./
 
 " build tags of your own project with Ctrl-F12
-nnoremap <C-F10> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+nnoremap <silent> <F10> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " OmniCppComplete
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+" let OmniCpp_NamespaceSearch = 1
+" let OmniCpp_GlobalScopeSearch = 1
+" let OmniCpp_ShowAccess = 1
+" let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+" let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+" let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+" let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+" let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
 " automatically open and close the popup menu / preview window
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
@@ -242,8 +244,6 @@ let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.CUTLERGROUP', '\.obj$',
             \ '\.embed\.manifest$', '\.embed\.manifest.res$',
             \ '\.intermediate\.manifest$', '^mt.dep$', '\.o$', '\.vcproj$', '\.so$', '\.so.1$', '\.so.1.0$']
 
-
-
 "-----------------------------------------------------------------------------
 " TagBar Plugin Settings
 "-----------------------------------------------------------------------------
@@ -253,9 +253,4 @@ nnoremap <silent> <F9> :TagbarToggle<CR>
 " EasyMotion Plugin Settings
 "-----------------------------------------------------------------------------
 let g:EasyMotion_leader_key = ','
-
-"-----------------------------------------------------------------------------
-" vim-R-plugin Settings
-"-----------------------------------------------------------------------------
-let g:vimrplugin_underscore = 0
 
