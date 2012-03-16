@@ -132,20 +132,21 @@ nmap <silent> ,ev :e $MYVIMRC<CR>
 nmap <silent> ,sv :so $MYVIMRC<CR>
 
 " Make mappings
-nmap <silent> ,mi :make DEBUG=1 install<CR>
-nmap <silent> ,mr :make DEBUG=1<CR>
+nmap <silent> ,mi :make install<CR>
+nmap <silent> ,mr :make <CR>
+nmap <silent> ,mc :make check<CR>
 
 " Search the current file for what's currently in the search register and display matches
-nmap <silent> ,gs :vimgrep /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nmap <silent> ,gs :Ack /<C-r>// %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 
 " Search the current file for the word under the cursor and display matches
-nmap <silent> ,gw :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nmap <silent> ,gw :Ack /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 
 " Search the current file for the WORD under the cursor and display matches
-nmap <silent> ,gW :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
+nmap <silent> ,gW :Ack /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:nohls<CR>
 
 " Search the current directory for the WORD under the cursor and display matches
-nmap <silent> ,gc :grep -R --include=*.{cpp,h} <C-r><C-w> *<CR>:ccl<CR>:cwin<CR>
+nmap <silent> ,gc :Ack -R --include=*.{cpp,h} <C-r><C-w> *<CR>:ccl<CR>:cwin<CR>
 
 " Toggle on/off highlight search
 nnoremap <silent> ,/ :set invhlsearch<CR>:set hlsearch?<CR>
@@ -154,11 +155,14 @@ nnoremap <silent> ,/ :set invhlsearch<CR>:set hlsearch?<CR>
 let mapleader = ","
 
 " set the colorscheme
-" set t_Co=256
+set t_Co=256
 colorscheme wombat256
 
 " Workaround to stop make/quickfix from creating a new file
 set errorformat^=%-GIn\ file\ included\ %.%# 
+
+" Fix for C++11 lambdas
+let c_no_curly_error=1
 
 "-----------------------------------------------------------------------------
 " pathogen Settings
@@ -175,16 +179,16 @@ nmap <silent> ,ep :e $HOME/.vim/bundle/snipmate/snippets/cpp.snippets<CR>
 "-----------------------------------------------------------------------------
 " Clang Complete Settings
 "-----------------------------------------------------------------------------
+let g:clang_periodic_quickfix = 0
+let g:clang_snippets = 1
+let g:clang_snippets_engine = 'snipmate'
 let g:clang_use_library = 1
-let g:clang_library_path = '/home/windsor/source/build/Release+Asserts/lib'
-
-" let g:clang_snippets = 1
-" let g:clang_conceal_snippets = 0
+" let g:clang_library_path = '/home/windsor/source/build/Release+Asserts/lib'
 
 "-----------------------------------------------------------------------------
 " ctrlp Settings
 "-----------------------------------------------------------------------------
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.deps/*,*.o,*.so*,*.vcproj
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.deps/*,*.o,*.so*,*.vcproj,*.d
 
 " Search by filename not full path as default
 let g:ctrlp_by_filename = 1
@@ -234,6 +238,24 @@ set completeopt=menuone,menu,longest,preview
 map ,] :call CustomTagSelect()<CR>
 
 "-----------------------------------------------------------------------------
+" cscope Plugin Settings
+"-----------------------------------------------------------------------------
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+        " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+endif
+
+
+"-----------------------------------------------------------------------------
 " NERD Tree Plugin Settings
 "-----------------------------------------------------------------------------
 map <F2> :NERDTreeToggle<CR>
@@ -243,6 +265,11 @@ let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.CUTLERGROUP', '\.obj$',
             \ '\.ilk$', '^BuildLog.htm$', '\.pdb$', '\.idb$',
             \ '\.embed\.manifest$', '\.embed\.manifest.res$',
             \ '\.intermediate\.manifest$', '^mt.dep$', '\.o$', '\.vcproj$', '\.so$', '\.so.1$', '\.so.1.0$']
+
+"-----------------------------------------------------------------------------
+" Gundo Plugin Settings
+"-----------------------------------------------------------------------------
+nnoremap <silent> <F4> :GundoToggle<CR>
 
 "-----------------------------------------------------------------------------
 " TagBar Plugin Settings
